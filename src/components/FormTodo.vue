@@ -85,8 +85,5 @@ export default {
 
 <style scoped>
 
-/* .todo-container {
-        margin-top: 20px;
-    } */
 
 </style>

@@ -1,13 +1,17 @@
 <template>
   <ListHeader/>
   <FormTodo @add="saveTodo"/>
-  <TodoList :todos="todos"  @delete-todo="deleteTodo" />
+  <div class="card my-2 item-todo">
+        <div  :key="index" v-for="(todo, index) in todos">
+            <p @click="toggleTask(index)" :style="[todo.completed ? {'text-decoration': 'line-through'} : {'text-decoration': 'none'}]">{{ todo.content }}</p>
+            <button @click="deleteTodo(index)">Supprimer</button>
+        </div>
+     </div>
 </template>
 
 <script>
 
 import ListHeader from './components/ListHeader';
-import TodoList from './components/TodoList';
 import FormTodo from './components/FormTodo';
 
 import { ref } from 'vue';
@@ -15,7 +19,6 @@ export default {
   name: 'App',
   components: {
     ListHeader,
-    TodoList,
     FormTodo,
   }, 
   setup(){
@@ -23,20 +26,21 @@ export default {
     let todos = ref([]);
 
     const saveTodo = function (data) {
-      // console.log("App template", data);
       todos.value = [...todos.value, {content: data.content, completed: data.completed}];
-      // console.log('Array|', todos.value)
     }; 
 
     const deleteTodo = function (todo){
       // console.log(todos.value[todo].content)
       todos.value.splice(todo, 1);
-      // todos.value = todos.value.filter(t => t[index] != t[todo])
-    }
+    };
 
+    const toggleTask = function (todo){
+      todos.value[todo].completed = !todos.value[todo].completed;
+    }
     return {
       saveTodo,
       deleteTodo,
+      toggleTask,
       todos,
     }
   }
